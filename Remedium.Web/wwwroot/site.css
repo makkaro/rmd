@@ -1,0 +1,11 @@
+﻿.r-navbar {
+    padding: .75rem 0;
+}
+
+@media (min-width: 768px) {
+    .r-navbar-greeting {
+        margin-right: .5rem;
+        padding-right: 1rem !important;
+        border-right: solid 1px #6c757d;
+    }
+}

@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Remedium.Web.Data.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var controller = ViewContext.RouteData.Values["Controller"]!.ToString();
+}
+
+<header class='navbar navbar-expand-md navbar-dark bg-dark r-navbar'>
+    <nav class='container-xxl flex-wrap flex-md-nowrap'>
+        <a class='navbar-brand p-0 me-2' asp-controller='Blog' asp-action='Index'>
+            <i class='bi bi-cup-straw'></i>
+            <span>Remedium</span>
+        </a>
+        <button class='navbar-toggler collapsed' data-bs-toggle='collapse' data-bs-target='#rNavbar'>
+            <span class='navbar-toggler-icon'></span>
+        </button>
+        <div class='navbar-collapse collapse' id='rNavbar'>
+            <hr class='d-md-none text-light'>
+            <div class='navbar-nav flex-row flex-wrap pt-2 py-md-0'>
+                
+            </div>
+            <hr class='d-md-none text-light'>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <div class='navbar-nav flex-row flex-wrap ms-md-auto'>
+                    <div class='nav-item col-12 col-md-auto'>
+                        <span class='nav-link p-2 text-secondary user-select-none r-navbar-greeting'>
+                            Hello, @User.Identity?.Name Janusz!
+                        </span>
+                    </div>
+                    <div class='nav-item col-6 col-md-auto'>
+                        <a class='nav-link p-2'>My Inventory</a>
+                    </div>
+                    <div class='nav-item col-6 col-md-auto'>
+                        <a id='rNavbarSignOutLink' class='nav-link p-2'>Sign Out</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div id='rNavbarSignInPanel' class='navbar-nav flex-row flex-wrap ms-md-auto'>
+                    <form name='rNavbarSignInForm' class='nav-item col-10 col-md-auto'>
+                        <div class='input-group'>
+                            <input name='Email' type='email' required placeholder='email' class='form-control'>
+                            <input name='Password' type='password' minlength='6' required
+                                   placeholder='&#9679;&#9679;&#9679;&#9679;&#9679;' class='form-control' >
+                            <input type='submit' value='Sign In' class='btn btn-outline-warning'>
+                        </div>
+                    </form>
+                    <div class='nav-item'>
+                        <a asp-controller='Account' asp-action='SignUp' class='btn btn-outline-light ms-2'>Sign Up</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </nav>
+</header>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <script src='~/scripts/sign-out.js'></script>
+}
+else
+{
+    <script src='~/scripts/sign-in.js'></script>
+}

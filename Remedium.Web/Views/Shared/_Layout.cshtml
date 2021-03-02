@@ -1,0 +1,40 @@
+﻿ <!doctype html>
+<html lang='en-us'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    
+    <title>@ViewData["Title"] - Remedium</title>
+    
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css'
+          rel='stylesheet'
+          integrity='sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl'
+          crossorigin='anonymous'>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css'
+          rel='stylesheet'>
+    <link href='site.css'
+          rel='stylesheet'>
+
+    <script defer
+            src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js' 
+            integrity='sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0' 
+            crossorigin='anonymous'></script>
+</head>
+<body>
+    <partial name='_NavbarPartial'/>
+    
+    <div class='container'>
+        <main class='pb-3'>
+            @RenderBody()
+        </main>
+    </div>
+    
+    <footer class='border-top text-muted'>
+        <div class='container'>
+            &copy; 2021 - Remedium - <a asp-controller='Blog' asp-action='Index'>Home Page</a>
+        </div>
+    </footer>
+    
+    @await RenderSectionAsync("Scripts", false)
+</body>
+</html>
