@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Authorization 
+@inject IAuthorizationService AuthorizationService
+
+@model IEnumerable<Remedium.Web.Data.Entities.Article>
+@{
+    Layout = null;
+    var authorized = (await AuthorizationService.AuthorizeAsync(User, "RequireAdministrator")).Succeeded;
+}
+
+
+<div class='container-xxl'>
+    @if (authorized)
+    {
+        <button data-url='@Url.Action("Update")' data-title='Adding new article'
+                data-bs-toggle='modal' data-bs-target='#modal'
+                class='btn btn-lg btn-warning'>
+            <i class='bi bi-plus'></i>
+            <span>Add new article</span>
+        </button>
+    }
+    @foreach (var article in Model)
+    {
+        var updated = article.LastUpdateAuthor is not null;
+        
+        <article class='border rounded my-3 p-3'>
+            @if (authorized)
+            {
+                <div class='d-flex justify-content-end position-relative'>
+                    <button data-url='Home/Update/@article.Id' data-title='Updating article #@article.Id'
+                            data-bs-toggle='modal' data-bs-target='#modal'
+                            class='btn btn-warning me-2 ms-auto'>
+                        <i class='bi bi-tools'></i>
+                    </button>
+                    <button data-url='Home/Delete/@article.Id' data-title='Are you sure?'
+                            data-bs-toggle='modal' data-bs-target='#modal'
+                            class='btn btn-outline-danger'>
+                        <i class='bi bi-trash'></i>
+                    </button>
+                </div>
+            }
+            <h2>@article.Title</h2><hr>
+            <p>@article.Introduction</p>
+            <button data-bs-toggle='collapse' data-bs-target='#content-@article.Id'
+                    class='btn btn-outline-secondary dropdown-toggle'>Read more</button>
+            <p class='collapse my-3' id='content-@article.Id'>@article.Content</p>
+            <h6 class='bg-light rounded text-secondary text-end fst-italic mt-3'>
+                <span>
+                    Posted: @article.Timestamp.ToString("d")
+                     by: @article.Author.UserName
+                </span>
+                @if (updated)
+                {
+                    <span>
+                         | Updated: @article.LastUpdateTimestamp.ToString("d")
+                         by: @article.LastUpdateAuthor.UserName
+                    </span>
+                }
+            </h6>
+        </article>
+    }
+</div>

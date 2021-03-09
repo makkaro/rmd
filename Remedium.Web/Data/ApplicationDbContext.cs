@@ -17,14 +17,8 @@ namespace Remedium.Web.Data
 
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public DbSet<BlogPost> BlogPosts { get; set; }
-        public DbSet<ForumPost> ForumPosts { get; set; }
-        public DbSet<ForumThread> ForumThreads { get; set; }
-        public DbSet<Ingredient> Ingredients { get; set; }
-        public DbSet<IngredientQuantity> IngredientQuantities { get; set; }
-        public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
-        public DbSet<Recipe> Recipes { get; set; }
-        
+        public DbSet<Article> Articles { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

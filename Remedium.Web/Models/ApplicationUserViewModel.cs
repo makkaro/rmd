@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Remedium.Web.Models
 {
-    public class ApplicationUserViewModel
+    public sealed class ApplicationUserViewModel
     {
         [Required]
         [Display(Name = "Login")]

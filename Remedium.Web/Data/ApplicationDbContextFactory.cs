@@ -8,12 +8,14 @@ namespace Remedium.Web.Data
 {
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
     {
-        public ApplicationDbContext CreateDbContext(String[] args) => new(
-             options: new DbContextOptionsBuilder<ApplicationDbContext>().Options,
-             config: new ConfigurationBuilder()
-                 .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile("appsettings.json")
-                 .Build()
-        );
+        public ApplicationDbContext CreateDbContext(String[] args)
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>().Options;
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+            return new(options, config);
+        }
     }
 }

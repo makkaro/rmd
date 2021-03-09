@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -18,6 +19,18 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\scripts\blog\edit.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\scripts\blog\index.js" />
+      <_ContentIncludedByDefault Remove="Views\Blog\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Blog\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Blog\_ViewAll.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Browse\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Forum\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Inventory\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\home.js" />
     </ItemGroup>
 
 </Project>

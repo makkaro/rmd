@@ -9,3 +9,7 @@
         border-right: solid 1px #6c757d;
     }
 }
+
+.modal-textarea {
+    min-height: 10rem !important;
+}

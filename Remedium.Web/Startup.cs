@@ -28,11 +28,10 @@ namespace Remedium.Web
             services.AddDbContext<ApplicationDbContext>();
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.Password.RequiredLength = 4;
+                options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddScoped<IRepository, Repository>();
 
             services.AddAutoMapper(typeof(ApplicationUserProfile));
 
@@ -41,9 +40,11 @@ namespace Remedium.Web
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdministrator", policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("RequireModerator", policy => policy.RequireRole("Moderator"));
+                options.AddPolicy("RequireAdministratorOrModerator", policy => policy.RequireRole("Administrator", "Moderator"));
             });
         }
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
@@ -60,7 +61,7 @@ namespace Remedium.Web
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute("default", "{controller=Blog}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
 
             

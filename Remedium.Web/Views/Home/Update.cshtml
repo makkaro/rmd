@@ -1,0 +1,27 @@
+﻿@model Remedium.Web.Data.Entities.Article
+
+@{
+    Layout = null;
+}
+
+<form class='modal-form' autocomplete='off'>
+    <div asp-validation-summary='ModelOnly' class='text-danger'></div>
+    <input asp-for='Id' type='hidden'>
+    <input asp-for='Timestamp' type='hidden'>
+    <input asp-for='AuthorId' type='hidden'>
+    <div class='form-floating mb-3'>
+        <input asp-for='Title' class='form-control' placeholder>
+        <label asp-for='Title' class='form-label'></label>
+        <span asp-validation-for='Title' class='text-danger'></span>
+    </div>
+    <div class='form-floating mb-3'>
+        <textarea asp-for='Introduction' class='form-control modal-textarea' placeholder></textarea>
+        <label asp-for='Introduction' class='form-label'></label>
+        <span asp-validation-for='Introduction' class='text-danger'></span>
+    </div>
+    <div class='form-floating mb-3'>
+        <textarea asp-for='Content' class='form-control modal-textarea' placeholder></textarea>
+        <label asp-for='Content' class='form-label'></label>
+        <span asp-validation-for='Content' class='text-danger'></span>
+    </div>
+</form>

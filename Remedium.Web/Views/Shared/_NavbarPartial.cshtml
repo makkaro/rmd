@@ -1,5 +1,7 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
 @using Remedium.Web.Data.Entities
+@inject IAuthorizationService AuthorizationService
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -9,51 +11,66 @@
 
 <header class='navbar navbar-expand-md navbar-dark bg-dark r-navbar'>
     <nav class='container-xxl flex-wrap flex-md-nowrap'>
-        <a class='navbar-brand p-0 me-2' asp-controller='Blog' asp-action='Index'>
+        <a @* asp-controller='Home' *@ class='navbar-brand p-0 pb-1 me-2'>
             <i class='bi bi-cup-straw'></i>
             <span>Remedium</span>
         </a>
-        <button class='navbar-toggler collapsed' data-bs-toggle='collapse' data-bs-target='#rNavbar'>
+        <button data-bs-toggle='collapse' data-bs-target='#rNavbar' class='navbar-toggler collapsed'>
             <span class='navbar-toggler-icon'></span>
         </button>
-        <div class='navbar-collapse collapse' id='rNavbar'>
+        <div id='rNavbar' class='navbar-collapse collapse'>
             <hr class='d-md-none text-light'>
-            <div class='navbar-nav flex-row flex-wrap pt-2 py-md-0'>
-                
+            <div class='navbar-nav flex-row flex-wrap flex-md-nowrap pt-2 py-md-0'>
+                <div class='nav-item col-6 col-md-auto'>
+                    <a @* asp-controller='Forum' *@
+                       class='nav-link p-2 @(controller == "Forum" ? "active" : String.Empty)'>Forum</a>
+                </div>
+                <div class='nav-item col-6 col-md-auto '>
+                    <a @* asp-controller='Browse' *@ class='nav-link p-2 @(controller == "Browse" ? "active" : String.Empty)'>
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministrator")).Succeeded)
+                    {
+                        <span class='text-danger'>Control</span>
+                    }
+                    else
+                    {
+                        <span>Browse</span>
+                    }
+                    </a>
+                </div>
             </div>
             <hr class='d-md-none text-light'>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <div class='navbar-nav flex-row flex-wrap ms-md-auto'>
-                    <div class='nav-item col-12 col-md-auto'>
-                        <span class='nav-link p-2 text-secondary user-select-none r-navbar-greeting'>
-                            Hello, @User.Identity?.Name Janusz!
-                        </span>
-                    </div>
-                    <div class='nav-item col-6 col-md-auto'>
-                        <a class='nav-link p-2'>My Inventory</a>
-                    </div>
-                    <div class='nav-item col-6 col-md-auto'>
-                        <a id='rNavbarSignOutLink' class='nav-link p-2'>Sign Out</a>
-                    </div>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class='navbar-nav flex-row flex-wrap flex-md-nowrap ms-md-auto'>
+                <div class='nav-item col-12 col-md-auto'>
+                    <span class='nav-link p-2 text-secondary user-select-none r-navbar-greeting'>
+                        Hello, @User.Identity?.Name!
+                    </span>
                 </div>
-            }
-            else
-            {
-                <div id='rNavbarSignInPanel' class='navbar-nav flex-row flex-wrap ms-md-auto'>
-                    <form name='rNavbarSignInForm' class='nav-item col-10 col-md-auto'>
-                        <div class='input-group'>
-                            <input name='Email' type='email' required placeholder='email' class='form-control'>
-                            <input name='Password' type='password' minlength='6' required
-                                   placeholder='&#9679;&#9679;&#9679;&#9679;&#9679;' class='form-control' >
-                            <input type='submit' value='Sign In' class='btn btn-outline-warning'>
-                        </div>
-                    </form>
-                    <div class='nav-item'>
-                        <a asp-controller='Account' asp-action='SignUp' class='btn btn-outline-light ms-2'>Sign Up</a>
-                    </div>
+                <div class='nav-item col-6 col-md-auto'>
+                    <a @* asp-controller='Inventory' *@ 
+                       class='nav-link p-2 @(controller == "Inventory" ? "active" : String.Empty)'>My Inventory</a>
                 </div>
-            }
+                <div class='nav-item col-6 col-md-auto'>
+                    <a id='rNavbarSignOutLink' class='nav-link p-2 btn'>Sign Out</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id='rNavbarSignInPanel' class='navbar-nav flex-row justify-content-center ms-md-auto'>
+                <form name='rNavbarSignInForm' class='nav-item'>
+                    <div class='input-group'>
+                        <input name='Email' type='email' required placeholder='email' class='form-control'>
+                        <input name='Password' type='password' minlength='6' required
+                               placeholder='&#9679;&#9679;&#9679;&#9679;&#9679;' class='form-control' >
+                        <input type='submit' value='Sign In' class='btn btn-warning rounded-end'>
+                        <a asp-controller='Account' asp-action='SignUp' 
+                           class='btn btn-outline-light ms-2 rounded-start'>Sign Up</a>
+                    </div>
+                </form>
+            </div>
+        }
         </div>
     </nav>
 </header>
