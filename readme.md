@@ -23,6 +23,6 @@ As of now, this application consists of:
 ## Default user accounts
 * (administrator & moderator role assigned) login: admin@test.net; password: admin1
 * (moderator role assigned) login: moderator@test.net; password: moderator
-* login: gilgamesh; password: gilgamesh
-* login: cyrus; password: cyrus1
-* login: temujin; password: temujin
+* login: gilgamesh@test.net; password: gilgamesh
+* login: cyrus@test.net; password: cyrus1
+* login: temujin@test.net; password: temujin
