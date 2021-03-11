@@ -26,3 +26,6 @@ As of now, this application consists of:
 * login: gilgamesh@test.net; password: gilgamesh
 * login: cyrus@test.net; password: cyrus1
 * login: temujin@test.net; password: temujin
+
+## Author
+Karol Makowski
