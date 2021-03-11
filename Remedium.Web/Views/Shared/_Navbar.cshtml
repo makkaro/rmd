@@ -11,7 +11,8 @@
 
 <header class='navbar navbar-expand-md navbar-dark bg-dark r-navbar'>
     <nav class='container-xxl flex-wrap flex-md-nowrap'>
-        <a @* asp-controller='Home' *@ class='navbar-brand p-0 pb-1 me-2'>
+        <a asp-controller='Home' asp-action='Index' 
+           class='navbar-brand p-0 pb-1 me-2'>
             <i class='bi bi-cup-straw'></i>
             <span>Remedium</span>
         </a>
@@ -22,11 +23,13 @@
             <hr class='d-md-none text-light'>
             <div class='navbar-nav flex-row flex-wrap flex-md-nowrap pt-2 py-md-0'>
                 <div class='nav-item col-6 col-md-auto'>
-                    <a @* asp-controller='Forum' *@
+                    <a asp-controller='Forum' asp-action='Index'
                        class='nav-link p-2 @(controller == "Forum" ? "active" : String.Empty)'>Forum</a>
                 </div>
                 <div class='nav-item col-6 col-md-auto '>
-                    <a @* asp-controller='Browse' *@ class='nav-link p-2 @(controller == "Browse" ? "active" : String.Empty)'>
+                    <a asp-controller='Browse' asp-action='Index' 
+                       class='nav-link p-2 @(controller == "Browse" ? "active" : String
+                    .Empty)'>
                     @if ((await AuthorizationService.AuthorizeAsync(User, "RequireAdministrator")).Succeeded)
                     {
                         <span class='text-danger'>Control</span>
@@ -48,7 +51,7 @@
                     </span>
                 </div>
                 <div class='nav-item col-6 col-md-auto'>
-                    <a @* asp-controller='Inventory' *@ 
+                    <a asp-controller='Inventory' asp-action='Index'
                        class='nav-link p-2 @(controller == "Inventory" ? "active" : String.Empty)'>My Inventory</a>
                 </div>
                 <div class='nav-item col-6 col-md-auto'>
@@ -77,9 +80,9 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <script src='~/scripts/sign-out.js'></script>
+    <script src='~/js/account/sign-out.js'></script>
 }
 else
 {
-    <script src='~/scripts/sign-in.js'></script>
+    <script src='~/js/account/sign-in.js'></script>
 }

@@ -8,16 +8,19 @@
 }
 
 
-<div class='container-xxl'>
-    @if (authorized)
-    {
-        <button data-url='@Url.Action("Update")' data-title='Adding new article'
-                data-bs-toggle='modal' data-bs-target='#modal'
-                class='btn btn-lg btn-warning'>
-            <i class='bi bi-plus'></i>
-            <span>Add new article</span>
-        </button>
-    }
+<nav class='r-subnavbar bg-white py-2 border-bottom border-light'>
+    <div class='container-xxl d-flex gap-2 border-start border-end border-light'>
+        @if (authorized)
+        {
+            <button data-url='Home/Update' data-title='Adding new article'
+                    data-bs-toggle='modal' data-bs-target='#modal'
+                    class='btn btn-lg btn-warning'>
+                <i class='bi bi-pencil-square'></i>
+            </button>
+        }
+    </div>
+</nav>
+<main class='container-xxl py-2'>
     @foreach (var article in Model)
     {
         var updated = article.LastUpdateAuthor is not null;
@@ -58,4 +61,4 @@
             </h6>
         </article>
     }
-</div>
+</main>

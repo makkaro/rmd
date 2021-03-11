@@ -1,37 +1,42 @@
-﻿@model Remedium.Web.Models.ApplicationUserViewModel
+﻿@model Remedium.Web.Data.Models.ApplicationUserViewModel
 
 @{
     ViewBag.Title = "Sign Up";
 }
 
-<div class='container-xxl'>
-    <form method='POST' class='col-6 border-light rounded mx-auto py-5'>
-        <div asp-validation-summary='All' class='text-danger'></div>
-        <div class='form-floating mb-3'>
-            <input asp-for='UserName' class='form-control' placeholder>
-            <label asp-for='UserName' class='form-label'></label>
-            <span asp-validation-for='UserName' class='text-danger'></span>
-        </div>
-        <div class='form-floating mb-3'>
-            <input asp-for='Email' class='form-control' placeholder>
-            <label asp-for='Email' class='form-label'></label>
-            <span asp-validation-for='Email' class='text-danger'></span>
-        </div>
-        <div class='form-floating mb-3'>
-            <input asp-for='Password' class='form-control' placeholder>
-            <label asp-for='Password' class='form-label'></label>
-            <span asp-validation-for='Password' class='text-danger'></span>
-        </div>
-        <div class='form-floating mb-3'>
-            <input asp-for='ConfirmationPassword' class='form-control' placeholder>
-            <label asp-for='ConfirmationPassword' class='form-label'></label>
-            <span asp-validation-for='ConfirmationPassword' class='text-danger'></span>
-        </div>
-        <button type='submit' class='btn btn-lg btn-warning d-block mt-5 mx-auto'>Sign Up</button>
-    </form>
-</div>
+
+<form asp-action='SignUp' autocomplete='off'
+      class='container-xxl col-12 col-md-6 col-xxl-4 border-light rounded mx-auto py-5'>
+    <div asp-validation-summary='All' class='text-danger'></div>
+    <div class='form-floating mb-3'>
+        <input asp-for='UserName' class='form-control' placeholder autofocus>
+        <label asp-for='UserName' class='form-label'></label>
+        <span asp-validation-for='UserName' class='text-danger'></span>
+    </div>
+    <div class='form-floating mb-3'>
+        <input asp-for='Email' class='form-control' placeholder>
+        <label asp-for='Email' class='form-label'></label>
+        <span asp-validation-for='Email' class='text-danger'></span>
+    </div>
+    <div class='form-floating mb-3'>
+        <input asp-for='Password' class='form-control' placeholder>
+        <label asp-for='Password' class='form-label'></label>
+        <span asp-validation-for='Password' class='text-danger'></span>
+    </div>
+    <div class='form-floating mb-3'>
+        <input asp-for='ConfirmationPassword' class='form-control' placeholder>
+        <label asp-for='ConfirmationPassword' class='form-label'></label>
+        <span asp-validation-for='ConfirmationPassword' class='text-danger'></span>
+    </div>
+    <div class='row row-cols-4 gap-2 justify-content-center my-5'>
+        <a asp-controller='Home' asp-action='Index' class='nav-link btn btn-lg btn-outline-secondary'>Cancel</a>
+        <input type='submit' class='btn btn-lg btn-warning' value='Confirm'>
+    </div>
+    
+</form>
+
 
 @section Scripts
 {
-    <script src='~/scripts/sign-up.js'></script>
+    <script src='~/js/account/sign-up.js'></script>
 }

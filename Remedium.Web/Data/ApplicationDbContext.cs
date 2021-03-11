@@ -15,9 +15,10 @@ namespace Remedium.Web.Data
             _config = config;
         }
 
-
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        
         public DbSet<Article> Articles { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Thread> Threads { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

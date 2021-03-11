@@ -4,8 +4,13 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class='p-3' id='viewAll'>
+<div id='viewAll'>
     <partial name='_ViewAll'/>
 </div>
 
 <partial name='_Modal'></partial>
+
+@section Scripts
+{
+    <script src='~/js/modal.js'></script>
+}

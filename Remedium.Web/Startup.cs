@@ -1,8 +1,8 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Remedium.Web.Data;
@@ -14,15 +14,6 @@ namespace Remedium.Web
 {
     public sealed class Startup
     {
-        private readonly IConfiguration _config;
-
-        
-        public Startup(IConfiguration config)
-        {
-            _config = config;
-        }
-        
-        
         public static void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>();
@@ -31,6 +22,7 @@ namespace Remedium.Web
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAutoMapper(typeof(ApplicationUserProfile));
@@ -40,8 +32,7 @@ namespace Remedium.Web
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdministrator", policy => policy.RequireRole("Administrator"));
-                options.AddPolicy("RequireModerator", policy => policy.RequireRole("Moderator"));
-                options.AddPolicy("RequireAdministratorOrModerator", policy => policy.RequireRole("Administrator", "Moderator"));
+                options.AddPolicy("RequireModerator", policy => policy.RequireRole("Administrator", "Moderator"));
             });
         }
 
@@ -63,40 +54,34 @@ namespace Remedium.Web
             {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
-
             
-            if (env.IsDevelopment() && _config.GetValue<Boolean>("Flags:Setup"))
+            if (env.IsDevelopment())
             {
-                AddDefaultUsersWithRoles(serviceProvider);
+                AddDefaultRoles(serviceProvider);
             }
         }
-
         
-
-        #region *** Setup ***
-        
-        private static async void AddDefaultUsersWithRoles(IServiceProvider serviceProvider)
+        private static async void AddDefaultRoles(IServiceProvider serviceProvider)
         {
-            var admin = new ApplicationUser {UserName = "admin", Email = "admin@remedium.com"};
-            var mod = new ApplicationUser {UserName = "mod", Email = "mod@remedium.com"};
-            var user = new ApplicationUser {UserName = "user", Email = "user@remedium.com"};
-            var users = new[] {admin, mod, user};
-            
             using var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            using var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            
+            if (roleManager.Roles.Any() || await userManager.FindByNameAsync("admin") is null) return;
             await new[] {"Administrator", "Moderator"}.ForEachAsync(async role =>
             {
                 await roleManager.CreateAsync(new(role));
             });
-
-            using var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            await users.ForEachAsync(async applicationUser =>
+            
+            var admin = await userManager.FindByNameAsync("admin");
+            if (admin is not null)
             {
-                await userManager.CreateAsync(applicationUser, applicationUser.UserName + "1");
-            });
-            await userManager.AddToRoleAsync(admin, "Administrator");
-            await userManager.AddToRoleAsync(mod, "Moderator");
+                await userManager.AddToRoleAsync(admin, "Administrator");
+            }
+            var moderator = await userManager.FindByNameAsync("moderator");
+            if (moderator is not null)
+            {
+                await userManager.AddToRoleAsync(moderator, "Moderator");
+            }
         }
-
-        #endregion
     }
 }

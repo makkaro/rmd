@@ -1,0 +1,29 @@
+﻿@using Remedium.Web.Data.Entities
+
+@model Post
+
+@{
+    ViewBag.Title = Model.Id == default ? "Adding new post" : $"Updating post #{Model.Id}";
+}
+
+
+<div class='container-xxl'>
+    <h2 class='text-center my-3'>@ViewBag.Title</h2>
+    <form asp-action='Update' class='col-md-6 mx-auto' autocomplete='off'>
+        <div asp-validation-summary='ModelOnly' class='text-danger'></div>
+        <input asp-for='Id' type='hidden'>
+        <input asp-for='Timestamp' type='hidden'>
+        <input asp-for='AuthorId' type='hidden'>
+        <input asp-for='ThreadId' type='hidden'>
+        <div class='form-floating mb-3'>
+            <input asp-for='Content' class='form-control' placeholder autofocus>
+            <label asp-for='Content' class='form-label'></label>
+            <span asp-validation-for='Content' class='text-danger'></span>
+        </div>
+        <div class='row row-cols-4 gap-2 justify-content-center my-5'>
+            <a asp-action='Index' asp-route-id='@Model.ThreadId' 
+               class='nav-link btn btn-lg btn-outline-secondary'>Cancel</a>
+            <input type='submit' class='btn btn-lg btn-warning' value='Confirm' autofocus>
+        </div>
+    </form>
+</div>

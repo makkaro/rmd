@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Remedium.Web.Data.Entities;
-using Remedium.Web.Models;
+using Remedium.Web.Data.Models;
 
 namespace Remedium.Web.Controllers
 {
@@ -24,14 +24,14 @@ namespace Remedium.Web.Controllers
             _userManager = userManager;
         }
 
-
-        [HttpGet]
+        
         public IActionResult SignUp() => View();
 
         [HttpPost]
         public async Task<IActionResult> SignUp(ApplicationUserViewModel user)
         {
             if (!ModelState.IsValid) return View(user);
+            
             try
             {
                 if (await _userManager.FindByEmailAsync(user.Email) is not null)
@@ -45,13 +45,15 @@ namespace Remedium.Web.Controllers
                 if ((await _userManager
                     .CreateAsync(_autoMapper.Map<ApplicationUser>(user), user.Password)).Succeeded)
                 {
-                    return StatusCode(StatusCodes.Status201Created, "Account created successfully.");
+                    await SignIn(user);
+                    return RedirectToAction("Index", "Home");
                 }
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Internal database error.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database error.");
             }
+            
             return BadRequest();
         }
 
@@ -61,17 +63,19 @@ namespace Remedium.Web.Controllers
             try
             {
                 var applicationUser = await _userManager.FindByEmailAsync(user.Email);
-                if (applicationUser is null ||
-                    !(await _signInManager
-                        .PasswordSignInAsync(applicationUser, user.Password, false, false)).Succeeded)
+                if (applicationUser is null 
+                    || !(await _signInManager
+                        .PasswordSignInAsync(applicationUser, user.Password, false, false))
+                        .Succeeded)
                 {
-                    return StatusCode(StatusCodes.Status403Forbidden, "Invalid user credentials");
+                    return StatusCode(StatusCodes.Status403Forbidden, "Invalid user credentials.");
                 }
+                
                 return StatusCode(StatusCodes.Status201Created);
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Internal database error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database error.");
             }
         }
 
@@ -85,7 +89,7 @@ namespace Remedium.Web.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Internal database error");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database error");
             }
         }
     }

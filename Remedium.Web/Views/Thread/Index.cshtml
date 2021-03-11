@@ -1,0 +1,58 @@
+﻿@using Remedium.Web.Data.Entities
+
+@model IEnumerable<Post>
+@{
+    ViewBag.Title = Model.First().Thread.Title;
+}
+
+
+<nav class='r-subnavbar bg-white py-2 border-bottom border-light'>
+    <div class='container-xxl d-flex gap-2 border-start border-end border-light'>
+        <a asp-controller='Forum' asp-action='Index' title='Back to forum main page'
+           data-bs-toggle='tooltip' data-bs-placement='bottom' data-bs-animation='false'
+           class='nav-link btn btn-lg btn-outline-secondary'>
+            <i class='bi bi-arrow-counterclockwise'></i>
+        </a>
+        @if (ViewBag.AnyoneSignedIn)
+        {
+            <a asp-action='Update' asp-route-threadId='@Model.First().ThreadId' title='Respond to this thread'
+               data-bs-toggle='tooltip' data-bs-placement='bottom' data-bs-animation='false'
+               class='nav-link btn btn-lg btn-warning'>
+                <i class='bi bi-pencil-square'></i>
+            </a>
+        }
+    </div>
+</nav>
+<main class='container-xxl py-2'>
+    @foreach (var post in Model)
+    {
+        <div class='row align-items-center bg-white border rounded my-2 py-2'>
+            <span class='col-md-10 mt-1 ms-2'>
+                <h5>
+                    <span class='text-muted fst-italic fs-6 border-end border-muted pe-3'>
+                        @post.Author.UserName
+                    </span>
+                    <span class='ps-3'>@post.Content</span>
+                </h5>
+            </span>
+            @if (ViewBag.Authorized || ViewBag.User?.Id == post.AuthorId)
+            {
+                <div class='col-12 col-md-auto gap-2 ms-auto'>
+                    <a asp-action='Update' asp-route-threadId='@post.ThreadId' asp-route-id='@post.Id'
+                       class='btn btn-warning'>
+                        <i class='bi bi-tools'></i>
+                    </a>
+                    <a asp-action='Delete' asp-route-id='@post.Id' class='btn btn-outline-danger'>
+                        <i class='bi bi-trash'></i>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</main>
+
+
+@section Scripts
+{
+    <script src='~/js/tooltips.js'></script>
+}

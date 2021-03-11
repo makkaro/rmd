@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Remedium.Web.Data.Entities;
-using Remedium.Web.Models;
+using Remedium.Web.Data.Models;
 
 namespace Remedium.Web.Data.Profiles
 {

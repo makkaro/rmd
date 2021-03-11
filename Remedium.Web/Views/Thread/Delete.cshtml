@@ -1,0 +1,17 @@
+﻿@using Remedium.Web.Data.Entities
+
+@model Post
+@{
+    ViewBag.Title = $"Deleting post #{Model.Id}";
+}
+
+
+<form asp-action='Delete' class='container col-md-6 mx-auto mt-5'>
+    <input asp-for='Id' type='hidden'>
+    <input asp-for='ThreadId' type='hidden'>
+    <h3 class='row justify-content-center my-3'>@ViewBag.Title - Are you sure?</h3>
+    <div class='row row-cols-4 gap-2 justify-content-center my-5'>
+        <a asp-action='Index' class='nav-link btn btn-lg btn-outline-secondary'>Cancel</a>
+        <input type='submit' class='btn btn-lg btn-warning' value='Confirm' autofocus>
+    </div>
+</form>

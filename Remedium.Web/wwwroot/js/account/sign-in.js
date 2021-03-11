@@ -1,5 +1,4 @@
 ﻿void function() {
-    // TODO Proper response handling...
     const form = document.forms['rNavbarSignInForm']
     form.onsubmit = function(event) {
         event.preventDefault()

@@ -1,5 +1,13 @@
 ﻿.r-navbar {
     padding: .75rem 0;
+    z-index: 1030;
+    width: 100%;
+}
+
+.r-subnavbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
 }
 
 @media (min-width: 768px) {
@@ -12,4 +20,8 @@
 
 .modal-textarea {
     min-height: 10rem !important;
+}
+
+.tooltip {
+    
 }

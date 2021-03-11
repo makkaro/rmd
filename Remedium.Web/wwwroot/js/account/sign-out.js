@@ -1,5 +1,4 @@
 ﻿void function() {
-    // TODO Proper response handling...
     document.getElementById('rNavbarSignOutLink').onclick = function() {
         const xhr = new XMLHttpRequest()
         xhr.open('DELETE', 'Account/SignOut')

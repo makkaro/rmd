@@ -12,21 +12,19 @@
           crossorigin='anonymous'>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css'
           rel='stylesheet'>
-    <link href='~/site.css'
+    <link href='~/css/site.css'
           rel='stylesheet'>
 </head>
-<body>
-    <partial name='_NavbarPartial'/>
+<body class='d-flex flex-column bg-light'>
+    <partial name='_Navbar'/>
+    
+    @RenderBody()
+    
+    
 
-    <div class='container'>
-        <main class='pb-3'>
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class='border-top text-muted'>
+    <footer class='footer mt-auto py-3 bg-light fixed-bottom'>
         <div class='container'>
-            &copy; 2021 - Remedium - <a @* asp-controller='Home' *@>Home Page</a>
+            &copy; 2021 - Remedium - <a asp-controller='Home'>Home Page</a>
         </div>
     </footer>
 
@@ -36,7 +34,6 @@
     <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js'
             integrity='sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0'
             crossorigin='anonymous'></script>
-    <script src='~/site.js'></script>
     @await RenderSectionAsync("Scripts", false)
 </body>
 </html>
